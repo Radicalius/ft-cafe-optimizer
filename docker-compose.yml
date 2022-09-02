@@ -1,0 +1,13 @@
+version: '3'
+services:
+
+  bonappetit:
+    build: .
+    environment:
+      - PORT=8000
+      - REDIS=redis
+    ports:
+      - 8000:8000
+
+  redis:
+    image: redis
