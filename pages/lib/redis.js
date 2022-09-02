@@ -8,6 +8,14 @@ export async function setMenuItems(items) {
     await setItems('menu', items);
 }
 
+export async function getCombos() {
+    return await getItems('combos');
+}
+
+export async function setCombos(items) {
+    await setItems('combos', items);
+}
+
 async function getItems(key) {
     const redis = await getOrCreateConnection();
     const menuJson = await redis.get(key);
@@ -41,5 +49,7 @@ async function getOrCreateConnection() {
 
 module.exports = {
     getMenuItems,
-    setMenuItems
+    setMenuItems,
+    getCombos,
+    setCombos
 }

@@ -31,6 +31,7 @@ async function scrapeCafeMenu(cafeName) {
 async function scrapeMealMenu(section, mealName) {
     const res = [];
 
+    var id = 1;
     for (var i of section.querySelectorAll('.site-panel__daypart-item-container')) {
         const title = i.querySelector('.site-panel__daypart-item-title').text.trim();
         const tags = i.querySelectorAll('img').filter(x => x.hasAttribute('alt')).map(x => x.getAttribute('alt').split(':')[0]);
@@ -41,12 +42,14 @@ async function scrapeMealMenu(section, mealName) {
         if (i.querySelector('.price-item__amount')) {
             const price = Number.parseFloat(i.querySelector('.price-item__amount').text.trim().split('/')[0]);
             res.push({
+                id,
                 title, 
                 desc,
                 price,
                 mealName,
                 tags
             });
+            id++;
         }
     }
 
