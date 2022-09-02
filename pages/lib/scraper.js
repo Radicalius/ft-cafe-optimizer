@@ -13,6 +13,7 @@ async function scrapeCafeMenu(cafeName) {
     const resp = await fetch(`https://franklintempletonsm.cafebonappetit.com/cafe/${cafeName}/2022-09-01/`);
     if (!resp.ok) {
         console.warn('Bonapettit returned non-200 status code.');
+        return [];
     }
 
     const text = await resp.text();

@@ -1,5 +1,5 @@
-import { scrapeMenu } from '../lib/scraper';
+import { getMenu } from '../lib/data';
 
 export default async function handler(req, res) {
-  res.status(200).json({ items: await scrapeMenu() })
+  res.status(200).json({ items: await getMenu() })
 }
