@@ -1,0 +1,13 @@
+.table_row {
+    display: flex;
+    align-items: center;
+    column-gap: 10%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.table_row_price {
+    flex-grow: 1;
+    font-size: larger;
+    font-weight: 600;
+}

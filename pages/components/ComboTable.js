@@ -1,24 +1,22 @@
-import ComboList from "./ComboList"
+import ComboList from './ComboList';
+import style from '../../styles/combotable.module.css';
 
 export default function ComboTable({ combos, menu }) {
-    const rows = combos.map(x => (
-        <tr class='combo-table-row'>
-            <td className="combo-table-row-list"><ComboList meals={x[0]} menu={menu} /></td>
-            <td className="combo-table-row-price">${x[1].toFixed(2)}</td>
-        </tr>
-    ))
-    
-    return (
-        <table className="combo-table">
-            <thead>
-                <tr>
-                    <td className="combo-table-header">Items</td>
-                    <td className="combo-table-header">Price</td>
-                </tr>
-            </thead>
-            <tbody>
-                {rows}
-            </tbody>
-        </table>
-    )
+    const rows = [];
+
+    for (var combo of combos) {
+        rows.push(<div className={style.table_row}>
+            <span className={style.table_row_price}>${combo[1].toFixed(2)}</span>
+            <span className={style.table_row_combo_list}><ComboList menu={menu} meals={combo[0]} /></span>
+        </div>);
+    }
+
+    return (<div className={style.table}>
+        <div className={style.table_header}>
+
+        </div>
+        <div className={style.table_rows}>
+            {rows}
+        </div>
+    </div>)
 }
