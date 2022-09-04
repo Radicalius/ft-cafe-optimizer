@@ -1,26 +1,30 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+.combo-table {
+  width: 50%;
+  height: 50%;
+  border: 1px solid darkgrey;
+  border-collapse: collapse;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.combo-table-row-list {
+  padding-right: 100px;
+  border: 1px solid lightgray;
 }
 
-* {
-  box-sizing: border-box;
+.combo-table-row-price {
+  border: 1px solid lightgray;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+.combo-table-row-price {
+  text-align: center;
+}
+
+.combo-table-header {
+  background: lightgray;
+  text-decoration: underline;
+  font-weight: 700;
+  padding: 10px 10px 10px 10px;
+}
+
+.combo-table-row:nth-child(even) {
+  background: #EEEEEE;
 }
