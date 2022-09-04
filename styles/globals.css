@@ -8,3 +8,7 @@ body {
   margin-right: auto;
   width: 50%;
 }
+
+#description {
+  color: gray;
+}
