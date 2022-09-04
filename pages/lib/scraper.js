@@ -2,12 +2,12 @@ import fetch from 'node-fetch';
 import { parse } from 'node-html-parser';
 
 export async function scrapeMenu() {
-    var res = await scrapeCafeMenu('park-east-cafe');
-    res = res.concat(await scrapeCafeMenu('park-place-cafe'));
+    var res = await scrapeCafeMenu('park-east-cafe', 0);
+    res = res.concat(await scrapeCafeMenu('park-place-cafe', res[res.length - 1].id));
     return res;
 }
 
-async function scrapeCafeMenu(cafeName) {
+async function scrapeCafeMenu(cafeName, lastId) {
     var res = [];
 
     const resp = await fetch(`https://franklintempletonsm.cafebonappetit.com/cafe/${cafeName}/2022-09-01/`);
@@ -22,16 +22,17 @@ async function scrapeCafeMenu(cafeName) {
     const mealSections = doc.querySelectorAll('[data-js="site-panel__daypart-container"]');
     for (var section of mealSections) {
         const mealName = section.querySelector('.panel__title.site-panel__daypart-panel-title').text.trim();
-        res = res.concat(await scrapeMealMenu(section, mealName));
+        res = res.concat(await scrapeMealMenu(section, mealName, lastId));
+        lastId = res[res.length - 1].id;
     }
 
     return res;
 }
 
-async function scrapeMealMenu(section, mealName) {
+async function scrapeMealMenu(section, mealName, startId) {
     const res = [];
 
-    var id = 1;
+    var id = startId + 1;
     for (var i of section.querySelectorAll('.site-panel__daypart-item-container')) {
         const title = i.querySelector('.site-panel__daypart-item-title').text.trim();
         const tags = i.querySelectorAll('img').filter(x => x.hasAttribute('alt')).map(x => x.getAttribute('alt').split(':')[0]);
