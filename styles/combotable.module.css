@@ -6,6 +6,10 @@
     margin-top: 10px;
 }
 
+.table_row_combo_list {
+    flex-grow: 5;
+}
+
 .table_row_price {
     flex-grow: 1;
     font-size: larger;

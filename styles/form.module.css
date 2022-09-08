@@ -1,0 +1,99 @@
+.toggle {
+    display: flex;
+    margin-top: 10px;
+}
+
+.toggle_label {
+    flex-grow: 1;
+}
+
+.toggle_body {
+    width: 40px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    border-radius: 15px;
+  }
+
+  .toggle_body_active {
+    background: blue;
+  }
+
+  .toggle_body_inactive {
+    background: gray;
+  }
+
+  .toggle_button_active {
+    margin-left: 22px;
+  }
+
+  .toggle_button_inactive {
+    margin-left: 2px;
+  }
+  
+  .toggle_button {
+    width: 15px;
+    height: 15px;
+    border-radius: 10px;
+    background: white;
+  }
+  
+  .toggle_body_off {
+    animation-name: toggle-body-off;
+    animation-duration: 0.25s;
+  }
+  
+  @keyframes toggle-body-off {
+    from {
+      background: blue;
+    }
+    
+    to {
+      background: gray;
+    }
+  }
+
+  .toggle_body_on {
+    animation-name: toggle-body-on;
+    animation-duration: 5s;
+  }
+  
+  @keyframes toggle-body-on {
+    to {
+      background: blue;
+    }
+    
+    from {
+      background: gray;
+    }
+  }
+
+  .toggle_button_off {
+    animation-name: toggle-button-off;
+    animation-duration: 0.25s;
+  }
+  
+  @keyframes toggle-button-off {
+    from {
+        margin-left: 22px;
+    }
+    
+    to {
+        margin-left: 2px;
+    }
+  }
+
+  .toggle_button_on {
+    animation-name: toggle-button-on;
+    animation-duration: 5s;
+  }
+  
+  @keyframes toggle-body-on {
+    to {
+        margin-left: 22px;
+    }
+    
+    from {
+        margin-left: 2px;
+    }
+  }

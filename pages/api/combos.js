@@ -8,8 +8,12 @@ export default async function handler(req, res) {
     combos = combos.filter(x => (new Set(x[0])).size == x[0].length);
   }
 
-  if (req.query.meal) {
-    combos = combos.filter(x => x[0].every(y => menu[y-1].mealName == req.query.meal));
+  if (req.query.includeLunch === 'false') {
+    combos = combos.filter(x => x[0].every(y => menu[y-1].mealName !== 'Lunch'));
+  }
+
+  if (req.query.includeBreakfast === 'false') {
+    combos = combos.filter(x => x[0].every(y => menu[y-1].mealName !== 'Breakfast'));
   }
 
   if (req.query.tags) {
