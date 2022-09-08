@@ -20,6 +20,17 @@ export default function Home({ menu, initCombos, initMaxPage }) {
   const [contains, setContains] = useState([]);
 
   useEffect(() => {
+    var locked = false;
+    window.addEventListener('scroll', (event) => {
+      if (page < maxPage && !locked && (window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        locked = true;
+        setPage(page + 1);
+        setTimeout(() => {locked = false}, 100);
+      } 
+    });
+  }, [page]);
+
+  useEffect(() => {
 
     const tags = {
       "Vegan": vegan, 
@@ -31,11 +42,12 @@ export default function Home({ menu, initCombos, initMaxPage }) {
     const tagString = Object.keys(tags).filter(x => tags[x]).map(x => `tags=${x}`).join('&');
     const containsString = contains.map(x => `contains=${menu.find(y => y.title === x).id}`).join('&');
 
-    fetch(`/api/combos?page=${page}&pagesize=5&distinct=${!allowDuplicates}&includeBreakfast=${allowBreakfast}&includeLunch=${allowLunch}&${tagString}&${containsString}`)
+    fetch(`/api/combos?page=${page}&pagesize=25&distinct=${!allowDuplicates}&includeBreakfast=${allowBreakfast}&includeLunch=${allowLunch}&${tagString}&${containsString}`)
       .then(x => x.json())
       .then(resp => {
-        setCombos(resp.combos);
+        setCombos(resp.page == 1 ? resp.combos : combos.concat(resp.combos));
         setPage(resp.page);
+        console.log(`Page ${resp.page}`);
         setMaxPage(resp.maxPage);
       });
   }, [page, allowDuplicates, allowBreakfast, allowLunch, vegan, vegetarian, glutenFree, halal, contains]);
@@ -44,7 +56,10 @@ export default function Home({ menu, initCombos, initMaxPage }) {
     <div id="page_container">
       <h1 id="title">Franklin Templeton Cafe Optimizer</h1>
       <p id="description">Scrapes the menu from the Franklin Templeton Bon Appetit cafe and finds combinations of items that approach $25 after tax.</p>
-      <Multiselect selectedItems={contains} allItems={menu.map(x => x.title)} setSelected={setContains} />
+      <Multiselect selectedItems={contains} allItems={menu.map(x => x.title)} setSelected={(x) => {
+        setContains(x);
+        setPage(1);
+      }} />
       <br/>
       <FormExpand>
         <Toggle label="Allow Duplicates" isActive={allowDuplicates} setActive={(x) => {
@@ -84,7 +99,7 @@ export default function Home({ menu, initCombos, initMaxPage }) {
 export async function getServerSideProps() {
   const menu = await getMenu();
   var combos = (await getCombos());
-  const maxPage = Math.ceil(combos.length / 5);
+  const maxPage = Math.ceil(combos.length / 25);
   combos = (await getCombos()).slice(0,5);
 
   return {
