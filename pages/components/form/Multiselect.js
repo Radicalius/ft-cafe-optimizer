@@ -7,7 +7,7 @@ export default function Multiselect({ allItems, selectedItems, setSelected }) {
     const [focused, setFocused] = useState(false);
 
     const itemBoxes = selectedItems.map(x => (
-        <span className={style.multiselect_selected_item}>
+        <span key={x} className={style.multiselect_selected_item}>
             <span className={style.multiselect_selected_item_lable}>
                 {x}
             </span>
@@ -20,7 +20,7 @@ export default function Multiselect({ allItems, selectedItems, setSelected }) {
     ));
 
     const choices = allItems.filter(x => x.toLowerCase().startsWith(query.toLowerCase())).map(x => (
-        <div className={style.multiselect_choices_item} onClick={() => {
+        <div key={x} className={style.multiselect_choices_item} onClick={() => {
             setFocused(false);
             setSelected(selectedItems.concat(x));
             setQuery('');
