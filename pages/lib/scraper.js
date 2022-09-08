@@ -10,7 +10,7 @@ export async function scrapeMenu() {
 async function scrapeCafeMenu(cafeName, lastId) {
     var res = [];
 
-    const resp = await fetch(`https://franklintempletonsm.cafebonappetit.com/cafe/${cafeName}/2022-09-01/`);
+    const resp = await fetch(`https://franklintempletonsm.cafebonappetit.com/cafe/${cafeName}`);
     if (!resp.ok) {
         console.warn('Bonapettit returned non-200 status code.');
         return [];
@@ -41,7 +41,7 @@ async function scrapeMealMenu(section, mealName, startId) {
             desc = desc.text.trim();
         }
         if (i.querySelector('.price-item__amount')) {
-            const price = Number.parseFloat(i.querySelector('.price-item__amount').text.trim().split('/')[0]);
+            const price = Number.parseFloat(i.querySelector('.price-item__amount').text.trim().split('/')[0]) * 1.0938;
             res.push({
                 id,
                 title, 

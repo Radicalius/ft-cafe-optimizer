@@ -17,7 +17,7 @@ export default function Toggle({ label, isActive, setActive }) {
         setTimeout(() => {
             setIsAnimating(false);
             setActive(!isActive);
-        }, 5000);
+        }, 0.25);
     }
 
     return (

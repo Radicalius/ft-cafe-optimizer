@@ -55,7 +55,7 @@
 
   .toggle_body_on {
     animation-name: toggle-body-on;
-    animation-duration: 5s;
+    animation-duration: 0.25s;
   }
   
   @keyframes toggle-body-on {
@@ -85,7 +85,7 @@
 
   .toggle_button_on {
     animation-name: toggle-button-on;
-    animation-duration: 5s;
+    animation-duration: 0.25s;
   }
   
   @keyframes toggle-body-on {
