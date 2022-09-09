@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: npm run start
+  web: node worker/healthcheck.mjs & npm run start

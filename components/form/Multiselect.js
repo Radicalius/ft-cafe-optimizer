@@ -33,7 +33,7 @@ export default function Multiselect({ allItems, selectedItems, setSelected }) {
         <div>
             <div className={style.multiselect_container}>
                 {itemBoxes}
-                <input className={style.multiselect_input} value={query} onChange={(x) => setQuery(x.target.value)} onFocus={() => setFocused(true)} />
+                <input className={style.multiselect_input} value={query} placeholder="Must include..." onChange={(x) => setQuery(x.target.value)} onFocus={() => setFocused(true)} />
             </div>
             <div className={style.multiselect_choices} hidden={!focused}>
                 {choices}
