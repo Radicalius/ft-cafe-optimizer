@@ -1,4 +1,4 @@
-import { getCombos, getMenu } from '../lib/data';
+import { getCombos, getMenu } from '../../lib/data';
 
 export default async function handler(req, res) {
   var menu = await getMenu();

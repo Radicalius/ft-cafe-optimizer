@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import style from '../../../styles/form.module.css';
+import style from '../../styles/form.module.css';
 
 export default function Toggle({ label, isActive, setActive }) {
 

@@ -1,6 +1,8 @@
-import style from '../../styles/combolist.module.css';
+import style from '../styles/combolist.module.css';
 
 export default function ComboList({ meals, menu }) {
+    meals = meals ?? [];
+    menu = menu ?? [];
     const mealCounts = {}
     for (var i of meals) {
         if (!mealCounts[i]) {

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import style from '../../styles/formexpand.module.css';
+import style from '../styles/formexpand.module.css';
 
 export default function FormExpand({children}) {
     const [show, setShown] = useState(false);

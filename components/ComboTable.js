@@ -1,8 +1,10 @@
 import ComboList from './ComboList';
-import style from '../../styles/combotable.module.css';
+import style from '../styles/combotable.module.css';
 
 export default function ComboTable({ combos, menu }) {
     const rows = [];
+
+    console.log(`ComboTable ${combos[0]}`);
 
     for (var combo of combos) {
         rows.push(<div className={style.table_row}>

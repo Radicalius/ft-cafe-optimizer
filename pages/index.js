@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import ComboTable from './components/ComboTable';
-import FormExpand from './components/FormExpand';
-import Toggle from './components/form/Toggle';
-import { getMenu, getCombos } from './lib/data';
-import Multiselect from './components/form/Multiselect';
+import ComboTable from '../components/ComboTable';
+import FormExpand from '../components/FormExpand';
+import Toggle from '../components/form/Toggle';
+import { getMenu, getCombos } from '../lib/data';
+import Multiselect from '../components/form/Multiselect';
 
 export default function Home({ menu, initCombos, initMaxPage }) {
 
@@ -47,7 +47,6 @@ export default function Home({ menu, initCombos, initMaxPage }) {
       .then(resp => {
         setCombos(resp.page == 1 ? resp.combos : combos.concat(resp.combos));
         setPage(resp.page);
-        console.log(`Page ${resp.page}`);
         setMaxPage(resp.maxPage);
       });
   }, [page, allowDuplicates, allowBreakfast, allowLunch, vegan, vegetarian, glutenFree, halal, contains]);
@@ -100,7 +99,7 @@ export async function getServerSideProps() {
   const menu = await getMenu();
   var combos = (await getCombos());
   const maxPage = Math.ceil(combos.length / 25);
-  combos = (await getCombos()).slice(0,5);
+  combos = (await getCombos()).slice(0,25);
 
   return {
     props: {

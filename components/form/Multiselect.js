@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import style from '../../../styles/multiselect.module.css';
+import style from '../../styles/multiselect.module.css';
 
 export default function Multiselect({ allItems, selectedItems, setSelected }) {
 
