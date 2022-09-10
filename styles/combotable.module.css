@@ -15,3 +15,12 @@
     font-size: larger;
     font-weight: 600;
 }
+
+.table_empty_label {
+    font-weight: normal;
+    color: gray;
+}
+
+.table_empty {
+    text-align: center;
+}

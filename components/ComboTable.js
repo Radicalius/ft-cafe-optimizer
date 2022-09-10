@@ -4,7 +4,11 @@ import style from '../styles/combotable.module.css';
 export default function ComboTable({ combos, menu }) {
     const rows = [];
 
-    console.log(`ComboTable ${combos[0]}`);
+    if (combos.length === 0) {
+        return <div className={style.table_empty}>
+            <h3 className={style.table_empty_label}>No Results Found</h3>
+        </div>
+    }
 
     for (var combo of combos) {
         rows.push(<div className={style.table_row}>
