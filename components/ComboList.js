@@ -13,7 +13,7 @@ export default function ComboList({ meals, menu }) {
 
     const items = [];
     for (var meal of Object.keys(mealCounts)) {
-        items.push(<div className={style.list_item}>
+        items.push(<div key={meal} className={style.list_item}>
             <div className={style.list_item_info}>
                 <div className={style.list_item_info_top}>
                     {mealCounts[meal] > 1 ? <span className={style.list_item_info_count}>{`(x${mealCounts[meal]})`}</span> : <span></span>}

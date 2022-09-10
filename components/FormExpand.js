@@ -8,7 +8,7 @@ export default function FormExpand({children}) {
         <div className={style.form_expand}>
             <div className={style.form_expand_header} onClick={() => setShown(!show)}>
                 <span className={style.form_expand_header_options}>
-                    <img className={style.gear_icon} src='https://upload.wikimedia.org/wikipedia/commons/9/96/Gear-icon-transparent-background.png' />
+                    <img className={style.gear_icon} src='/gear-icon.png' />
                     Options
                 </span>
                 <span className={style.form_expand_header_toggle}>{show ? '▼' : '▲'}</span>
