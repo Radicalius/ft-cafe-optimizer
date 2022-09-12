@@ -64,7 +64,6 @@ export default function Home({ menu, initCombos, initMaxPage }) {
           setContains(x);
           setPage(1);
         }} />
-        <br/>
         <FormExpand>
           <Toggle label="Allow Duplicates" isActive={allowDuplicates} setActive={(x) => {
             setAllowDuplicates(x);
@@ -95,6 +94,7 @@ export default function Home({ menu, initCombos, initMaxPage }) {
             setPage(1);
           }} />
         </FormExpand>
+        <br/>
         <ComboTable menu={menu} combos={combos} />
       </div>
     </div>

@@ -1,3 +1,18 @@
+.table_header {
+    display: flex;
+}
+
+.table_header_price {
+    font-size: larger;
+    font-weight: 600;
+}
+
+.table_header_items {
+    font-size: larger;
+    font-weight: 600;
+    flex-grow: 1;
+}
+
 .table_row {
     display: flex;
     align-items: center;
@@ -6,14 +21,11 @@
     margin-top: 10px;
 }
 
-.table_row_combo_list {
-    flex-grow: 5;
-}
-
 .table_row_price {
     flex-grow: 1;
     font-size: larger;
     font-weight: 600;
+    padding-right: 25px;
 }
 
 .table_empty_label {

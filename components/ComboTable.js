@@ -12,19 +12,24 @@ export default function ComboTable({ combos, menu }) {
 
     var i = 0;
     for (var combo of combos) {
-        rows.push(<div key={i} className={style.table_row}>
-            <span className={style.table_row_price}>${combo[1].toFixed(2)}</span>
-            <span className={style.table_row_combo_list}><ComboList menu={menu} meals={combo[0]} /></span>
-        </div>);
+        rows.push(<tr key={i}>
+            <td><span className={style.table_row_price}>${combo[1].toFixed(2)}</span></td>
+            <td><span className={style.table_row_combo_list}><ComboList menu={menu} meals={combo[0]} /></span></td>
+        </tr>);
         i++;
     }
 
     return (<div className={style.table}>
-        <div className={style.table_header}>
-
-        </div>
-        <div className={style.table_rows}>
-            {rows}
-        </div>
+        <table>
+            <thead>
+                <tr>
+                    <td><span className={style.table_header_price}>Price</span></td>
+                    <td><span className={style.table_header_items}>Items</span></td>
+                </tr>
+            </thead>
+            <tbody>
+                {rows}
+            </tbody>
+        </table>
     </div>)
 }

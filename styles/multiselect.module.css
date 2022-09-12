@@ -1,5 +1,6 @@
 .multiselect_root {
     position: relative;
+    padding-bottom: 5px;
 }
 
 .multiselect_container {
