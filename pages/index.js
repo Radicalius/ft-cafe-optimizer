@@ -5,6 +5,7 @@ import FormExpand from '../components/FormExpand';
 import Toggle from '../components/form/Toggle';
 import { getMenu, getCombos } from '../lib/data';
 import Multiselect from '../components/form/Multiselect';
+import { filterDistinct } from '../lib/filters';
 
 export default function Home({ menu, initCombos, initMaxPage }) {
 
@@ -103,9 +104,10 @@ export default function Home({ menu, initCombos, initMaxPage }) {
 
 export async function getServerSideProps() {
   const menu = await getMenu();
-  var combos = (await getCombos());
+  var combos = await getCombos();
+  combos = filterDistinct(combos);
   const maxPage = Math.ceil(combos.length / 25);
-  combos = (await getCombos()).slice(0,25);
+  combos = combos.slice(0,25);
 
   return {
     props: {

@@ -1,35 +1,34 @@
 import { getCombos, getMenu } from '../../lib/data';
+import { filterTags, filterMeal, filterDistinct, filterContains } from '../../lib/filters';
 
 export default async function handler(req, res) {
   var menu = await getMenu();
   var combos = await getCombos();
 
   if (req.query.distinct === 'true') {
-    combos = combos.filter(x => (new Set(x[0])).size == x[0].length);
+    combos = filterDistinct(combos);
   }
 
   if (req.query.includeLunch === 'false') {
-    combos = combos.filter(x => x[0].every(y => menu[y-1].mealName !== 'Lunch'));
+    combos = filterMeal(combos, 'Lunch', menu);
   }
 
   if (req.query.includeBreakfast === 'false') {
-    combos = combos.filter(x => x[0].every(y => menu[y-1].mealName !== 'Breakfast'));
+    combos = filterMeal(combos, 'Breakfast', menu);
   }
 
   if (req.query.tags) {
-    if (req.query.tags.push) {
-      combos = combos.filter(x => x[0].every(y => req.query.tags.every(z => menu[y-1].tags.includes(z))));
+    if (!req.query.tags.push) {
+      req.query.tags = [req.query.tags];
     }
-    else {
-      combos = combos.filter(x => x[0].every(y => menu[y-1].tags.includes(req.query.tags)));
-    }
+    combos = filterTags(combos, req.query.tags, menu);
   }
 
   if (req.query.contains) {
     if (!req.query.contains.push) {
       req.query.contains = [req.query.contains];
     }
-    combos = combos.filter(x => req.query.contains.every(y => x[0].includes(Number.parseInt(y))));
+    combos = filterContains(combos, req.query.contains);
   }
 
   var page = 1;
