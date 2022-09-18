@@ -6,12 +6,16 @@ import Toggle from '../components/form/Toggle';
 import { getMenu, getCombos } from '../lib/data';
 import Multiselect from '../components/form/Multiselect';
 import { filterDistinct } from '../lib/filters';
+import { getDateStringOptions, getNextWeekdayDateString } from '../lib/dateUtil';
+import Dropdown from '../components/form/Dropdown';
 
-export default function Home({ menu, initCombos, initMaxPage }) {
+export default function Home({ initMenu, initCombos, initMaxPage, initDs, dsOptions }) {
 
   var [combos, setCombos] = useState(initCombos);
   var [page, setPage] = useState(1);
   var [maxPage, setMaxPage] = useState(initMaxPage);
+  var [ds, setDs] = useState(initDs);
+  var [menu, setMenu] = useState(initMenu);
   const [allowDuplicates, setAllowDuplicates] = useState(false);
   const [allowBreakfast, setAllowBreakfast] = useState(true);
   const [allowLunch, setAllowLunch] = useState(true);
@@ -44,14 +48,20 @@ export default function Home({ menu, initCombos, initMaxPage }) {
     const tagString = Object.keys(tags).filter(x => tags[x]).map(x => `tags=${x}`).join('&');
     const containsString = contains.map(x => `contains=${menu.find(y => y.title === x).id}`).join('&');
 
-    fetch(`/api/combos?page=${page}&pagesize=25&distinct=${!allowDuplicates}&includeBreakfast=${allowBreakfast}&includeLunch=${allowLunch}&${tagString}&${containsString}`)
+    fetch(`/api/menu?ds=${ds}`)
       .then(x => x.json())
-      .then(resp => {
-        setCombos(resp.page == 1 ? resp.combos : combos.concat(resp.combos));
-        setPage(resp.page);
-        setMaxPage(resp.maxPage);
-      });
-  }, [page, allowDuplicates, allowBreakfast, allowLunch, vegan, vegetarian, glutenFree, halal, contains]);
+      .then(resp1 => {
+        fetch(`/api/combos?page=${page}&pagesize=25&distinct=${!allowDuplicates}&includeBreakfast=${allowBreakfast}&includeLunch=${allowLunch}&${tagString}&${containsString}&ds=${ds}`)
+          .then(x => x.json())
+          .then(resp => {
+            setMenu(resp1.menu);
+            setCombos(resp.page == 1 ? resp.combos : combos.concat(resp.combos));
+            setPage(resp.page);
+            setMaxPage(resp.maxPage);
+            setDs(resp.ds);
+          });
+    })
+  }, [page, allowDuplicates, allowBreakfast, allowLunch, vegan, vegetarian, glutenFree, halal, contains, ds]);
 
   return (
     <div>
@@ -61,10 +71,15 @@ export default function Home({ menu, initCombos, initMaxPage }) {
       <div id="page_container">
         <h1 id="title">Franklin Templeton Cafe Optimizer</h1>
         <p id="description">Scrapes the menu from the Franklin Templeton Bon Appetit cafe and finds combinations of items that approach $25 after tax.</p>
-        <Multiselect selectedItems={contains} allItems={menu.map(x => x.title)} setSelected={(x) => {
-          setContains(x);
-          setPage(1);
-        }} />
+        <div id='search_bar'>
+          <span id='multi_select'>
+            <Multiselect selectedItems={contains} allItems={menu.map(x => x.title)} setSelected={(x) => {
+              setContains(x);
+              setPage(1);
+            }} />
+          </span>
+          <Dropdown options={dsOptions} selected={ds} setOption={setDs} />
+        </div>
         <FormExpand>
           <Toggle label="Allow Duplicates" isActive={allowDuplicates} setActive={(x) => {
             setAllowDuplicates(x);
@@ -103,17 +118,21 @@ export default function Home({ menu, initCombos, initMaxPage }) {
 }
 
 export async function getServerSideProps() {
-  const menu = await getMenu();
-  var combos = await getCombos();
+  const initDs = getNextWeekdayDateString();
+  const dsOptions = getDateStringOptions();
+  const menu = await getMenu(initDs);
+  var combos = await getCombos(initDs);
   combos = filterDistinct(combos);
   const maxPage = Math.ceil(combos.length / 25);
   combos = combos.slice(0,25);
 
   return {
     props: {
-      menu,
+      initMenu: menu,
       initCombos: combos,
-      initMaxPage: maxPage
+      initMaxPage: maxPage,
+      initDs,
+      dsOptions
     }
   }
 }

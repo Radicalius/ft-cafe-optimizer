@@ -1,0 +1,38 @@
+.dropdown_root {
+    position: relative;
+}
+
+.dropdown_container {
+    font-size: larger;
+    color: gray;
+    border: 1px solid lightgray;
+    background-color: #eeeeee;
+    border-radius: 5px;
+    padding: 5px;
+    display: flex;
+    column-gap: 5px;
+}
+
+.dropdown_selected {
+    flex-grow: 1;
+}
+
+.dropdown_options {
+    border: 1px solid lightgray;
+    background-color: #eeeeee;
+    width: 100%;
+    overflow-y: scroll;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+}
+
+.dropdown_options_item {
+    font-size: large;
+    color: gray;
+    padding: 2px;
+}
+
+.dropdown_options_item:hover {
+    background-color: lightgray;
+}

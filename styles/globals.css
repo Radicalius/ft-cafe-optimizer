@@ -17,3 +17,13 @@ body {
 #description {
   color: gray;
 }
+
+[hidden] { display: none !important; }
+
+#search_bar {
+  display: flex;
+}
+
+#multi_select {
+  flex-grow: 1;
+}

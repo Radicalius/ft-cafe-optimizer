@@ -1,9 +1,16 @@
 import { getCombos, getMenu } from '../../lib/data';
 import { filterTags, filterMeal, filterDistinct, filterContains } from '../../lib/filters';
+import { getNextWeekdayDateString } from '../../lib/dateUtil';
 
 export default async function handler(req, res) {
-  var menu = await getMenu();
-  var combos = await getCombos();
+
+  var ds = getNextWeekdayDateString();
+  if (req.query.ds !== undefined) {
+    ds = req.query.ds;
+  }
+
+  var menu = await getMenu(ds);
+  var combos = await getCombos(ds);
 
   if (req.query.distinct === 'true') {
     combos = filterDistinct(combos);
@@ -46,6 +53,7 @@ export default async function handler(req, res) {
     combos,
     page,
     pageSize,
-    maxPage
+    maxPage,
+    ds
   })
 }
