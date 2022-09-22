@@ -1,5 +1,5 @@
 import { getCombos, getMenu } from '../../lib/data';
-import { filterTags, filterMeal, filterDistinct, filterContains } from '../../lib/filters';
+import { filterTags, filterMeal, filterDistinct, filterContains, filterPriceMax } from '../../lib/filters';
 import { getNextWeekdayDateString } from '../../lib/dateUtil';
 
 export default async function handler(req, res) {
@@ -36,6 +36,10 @@ export default async function handler(req, res) {
       req.query.contains = [req.query.contains];
     }
     combos = filterContains(combos, req.query.contains);
+  }
+
+  if (req.query.maxPrice) {
+    combos = filterPriceMax(combos, Number.parseFloat(req.query.maxPrice));
   }
 
   var page = 1;

@@ -16,6 +16,7 @@ export default function Home({ initMenu, initCombos, initMaxPage, initDs, dsOpti
   var [maxPage, setMaxPage] = useState(initMaxPage);
   var [ds, setDs] = useState(initDs);
   var [menu, setMenu] = useState(initMenu);
+  var [allowOverLimit, setAllowOverLimit] = useState(false);
   const [allowDuplicates, setAllowDuplicates] = useState(false);
   const [allowBreakfast, setAllowBreakfast] = useState(true);
   const [allowLunch, setAllowLunch] = useState(true);
@@ -47,11 +48,12 @@ export default function Home({ initMenu, initCombos, initMaxPage, initDs, dsOpti
 
     const tagString = Object.keys(tags).filter(x => tags[x]).map(x => `tags=${x}`).join('&');
     const containsString = contains.map(x => `contains=${menu.find(y => y.title === x).id}`).join('&');
+    const maxPrice = `maxPrice=${allowOverLimit ? 26 : 25}`
 
     fetch(`/api/menu?ds=${ds}`)
       .then(x => x.json())
       .then(resp1 => {
-        fetch(`/api/combos?page=${page}&pagesize=25&distinct=${!allowDuplicates}&includeBreakfast=${allowBreakfast}&includeLunch=${allowLunch}&${tagString}&${containsString}&ds=${ds}`)
+        fetch(`/api/combos?page=${page}&pagesize=25&distinct=${!allowDuplicates}&includeBreakfast=${allowBreakfast}&includeLunch=${allowLunch}&${tagString}&${containsString}&ds=${ds}&${maxPrice}`)
           .then(x => x.json())
           .then(resp => {
             setMenu(resp1.menu);
@@ -61,7 +63,7 @@ export default function Home({ initMenu, initCombos, initMaxPage, initDs, dsOpti
             setDs(resp.ds);
           });
     })
-  }, [page, allowDuplicates, allowBreakfast, allowLunch, vegan, vegetarian, glutenFree, halal, contains, ds]);
+  }, [page, allowDuplicates, allowBreakfast, allowLunch, vegan, vegetarian, glutenFree, halal, contains, ds, allowOverLimit]);
 
   return (
     <div>
@@ -83,6 +85,10 @@ export default function Home({ initMenu, initCombos, initMaxPage, initDs, dsOpti
         <FormExpand>
           <Toggle label="Allow Duplicates" isActive={allowDuplicates} setActive={(x) => {
             setAllowDuplicates(x);
+            setPage(1);
+          }} />
+          <Toggle label="Allow > $25" isActive={allowOverLimit} setActive={(x) => {
+            setAllowOverLimit(x);
             setPage(1);
           }} />
           <Toggle label="Include Breakfast Options" isActive={allowBreakfast} setActive={(x) => {
